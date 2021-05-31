@@ -15,7 +15,7 @@ public class AddressBookServiceTest {
     @Test
     public void givenCityFromAddressBook_WhenRetrieved_ShouldReturnTheResult() {
         AddressBookService addressBookService = new AddressBookService();
-        List<PersonDetails> personDetailsList = addressBookService.getDataByCity();
+        List<PersonDetails> personDetailsList = addressBookService.getDataByCity("Pune");
         System.out.println(personDetailsList);
         Assertions.assertEquals(2, personDetailsList.size());
     }

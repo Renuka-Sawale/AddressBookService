@@ -52,8 +52,8 @@ public class AddressBookService {
         return personDetailsList;
     }
 
-    public List<PersonDetails> getDataByCity() {
-        String sql = String.format("select * from address_book_details where city = 'Pune'; ");
+    public List<PersonDetails> getDataByCity(String City) {
+        String sql = String.format("select * from address_book_details where city = '%s'; ", City);
         return this.getAddressBookDataUsingDB(sql);
     }
 }
