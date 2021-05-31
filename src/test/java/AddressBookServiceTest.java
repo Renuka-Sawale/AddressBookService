@@ -30,4 +30,12 @@ public class AddressBookServiceTest {
         System.out.println(personDetailsList);
         Assertions.assertEquals(4, personDetailsList.size());
     }
+
+    @Test
+    public void givenNewInformationToAddressBook_WhenUpdated_ShouldSyncWithDBUsing() {
+        AddressBookService addressBookService = new AddressBookService();
+        addressBookService.updatePersonData("Rohini","Chinchwad");
+        boolean result = addressBookService.checkAddressBookInSynWithDB("Rohini");
+        Assertions.assertTrue(result);
+    }
 }
