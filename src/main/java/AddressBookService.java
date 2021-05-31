@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +15,25 @@ public class AddressBookService {
     }
 
     public List<PersonDetails> readAddressBookDatabaseData() {
-        String query = "select * from address_book_details; ";
+        String sql = "select * from address_book_details; ";
+        return this.getAddressBookDataUsingDB(sql);
+    }
+
+    private List<PersonDetails> getAddressBookDataUsingDB(String sql) {
+        List<PersonDetails> personDetailsList = new ArrayList<>();
+        try(Connection connection = this.getConnection()){
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            personDetailsList = this.getAddressBookServiceData(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return personDetailsList;
+    }
+
+    private List<PersonDetails> getAddressBookServiceData(ResultSet resultSet) {
         List<PersonDetails> personDetailsList = new ArrayList<>();
         try {
-            Connection connection = this.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("firstName");
@@ -32,10 +46,14 @@ public class AddressBookService {
                 String email = resultSet.getString("email");
                 personDetailsList.add(new PersonDetails(id, firstName, lastName, address, city, state, zip, phoneNo, email));
             }
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return personDetailsList;
+    }
+
+    public List<PersonDetails> getDataByCity() {
+        String sql = String.format("select * from address_book_details where city = 'Pune'; ");
+        return this.getAddressBookDataUsingDB(sql);
     }
 }
