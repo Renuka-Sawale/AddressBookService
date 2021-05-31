@@ -56,4 +56,10 @@ public class AddressBookService {
         String sql = String.format("select * from address_book_details where city = '%s'; ", City);
         return this.getAddressBookDataUsingDB(sql);
     }
+
+    public List<PersonDetails> getAddressBookByParticularPeriod(LocalDate startDate, LocalDate endDate) {
+        String sql = String.format("select * from address_book_details where startDate between '%s' and '%s'",
+                Date.valueOf(startDate), Date.valueOf(endDate));
+        return this.getAddressBookDataUsingDB(sql);
+    }
 }
