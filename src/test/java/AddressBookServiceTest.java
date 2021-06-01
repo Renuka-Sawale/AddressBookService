@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AddressBookServiceTest {
@@ -37,5 +38,15 @@ public class AddressBookServiceTest {
         addressBookService.updatePersonData("Rohini","Chinchwad");
         boolean result = addressBookService.checkAddressBookInSynWithDB("Rohini");
         Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void givenNewContactToAddressBook_WhenAdded_ShouldReturnResult() {
+        AddressBookService addressBookService = new AddressBookService();
+        List<PersonDetails> personDetailsList;
+        addressBookService.readAddressBookDatabaseData();
+        addressBookService.addNewContactToAddressBook("Rahul", "Singh", "Seawood", "Mumbai", "Maharastra", 1234, 8989, "rahul16@gmail.com", LocalDate.now());
+        personDetailsList = addressBookService.readAddressBookDatabaseData();
+        Assertions.assertEquals(5,personDetailsList.size());
     }
 }
