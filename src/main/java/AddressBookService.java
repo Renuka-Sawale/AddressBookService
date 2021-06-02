@@ -123,4 +123,12 @@ public class AddressBookService {
         }
         return  addressBookContact;
     }
+
+    public void addAddressBookData(List<PersonDetails> personDetailsList) {
+        personDetailsList.forEach(personDetails ->  {
+            System.out.println("Address Book Contact Added: "+personDetails.firstName);
+            this.addNewContactToAddressBook(personDetails.firstName, personDetails.lastName, personDetails.address, personDetails.city, personDetails.state, personDetails.zip, personDetails.phoneNo, personDetails.email, personDetails.startDate);
+            System.out.println("Address Book Contact Added: "+personDetails.firstName);
+        });
+    }
 }
