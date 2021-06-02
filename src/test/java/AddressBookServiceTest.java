@@ -67,7 +67,12 @@ public class AddressBookServiceTest {
         addressBookService.addAddressBookData(Arrays.asList(arrayOfContacts));
         Instant end = Instant.now();
         System.out.println("Duration Thread: "+ Duration.between(start, end));
+        Instant threadStart = Instant.now();
+        addressBookService.addAddressBookWithThreads(Arrays.asList(arrayOfContacts));
+        Instant threadEnd = Instant.now();
+        System.out.println("Duration With Thread: "+ Duration.between(threadStart, threadEnd));
         personDetailsList = addressBookService.readAddressBookDatabaseData();
-        Assertions.assertEquals(8, personDetailsList.size());
+        System.out.println(personDetailsList.size());
+        Assertions.assertEquals(12,personDetailsList.size() );
     }
 }

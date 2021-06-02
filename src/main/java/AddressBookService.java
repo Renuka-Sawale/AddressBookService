@@ -1,7 +1,9 @@
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddressBookService {
     private PreparedStatement AddressBookPrepareStatement;
@@ -130,5 +132,30 @@ public class AddressBookService {
             this.addNewContactToAddressBook(personDetails.firstName, personDetails.lastName, personDetails.address, personDetails.city, personDetails.state, personDetails.zip, personDetails.phoneNo, personDetails.email, personDetails.startDate);
             System.out.println("Address Book Contact Added: "+personDetails.firstName);
         });
+    }
+
+    public void addAddressBookWithThreads(List<PersonDetails> personDetailsList) {
+        Map<Integer, Boolean> addressAdditionStatus = new HashMap<Integer, Boolean>();
+        personDetailsList.forEach(addressBookData -> {
+            Runnable task = () -> {
+                addressAdditionStatus.put(addressBookData.hashCode(), false);
+                System.out.println("Contact added: "+Thread.currentThread().getName());
+                this.addNewContactToAddressBook(addressBookData.firstName, addressBookData.lastName,
+                        addressBookData.address, addressBookData.city,
+                        addressBookData.state, addressBookData.zip,
+                        addressBookData.phoneNo, addressBookData.email, addressBookData.startDate);
+                addressAdditionStatus.put(addressBookData.hashCode(), true);
+                System.out.println("Contact Added: " +Thread.currentThread().getName());
+            };
+            Thread thread = new Thread(task, addressBookData.firstName);
+            thread.start();
+        });
+        while (addressAdditionStatus.containsValue(false)) {
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+
+            }
+        }
     }
 }

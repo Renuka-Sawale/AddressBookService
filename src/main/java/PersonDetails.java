@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class PersonDetails {
     public int id;
@@ -58,6 +59,11 @@ public class PersonDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonDetails that = (PersonDetails) o;
-        return id == that.id && zip == that.zip && phoneNo == that.phoneNo && firstName.equals(that.firstName) && lastName.equals(that.lastName) && address.equals(that.address) && city.equals(that.city) && state.equals(that.state) && email.equals(that.email) && startDate.equals(that.startDate);
+        return id == that.id && zip == that.zip && phoneNo == that.phoneNo && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(address, that.address) && Objects.equals(city, that.city) && Objects.equals(state, that.state) && Objects.equals(email, that.email) && Objects.equals(startDate, that.startDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, address, city, state, zip, phoneNo, email, startDate);
     }
 }
